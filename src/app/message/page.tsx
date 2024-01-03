@@ -12,6 +12,10 @@ import {
 } from "@/components/ui/avatar"
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { Input } from '@/components/ui/input';
+import SendIcon from '@/components/icon/SendIcon';
+import Conversation from '@/components/message/Message';
+import Message from '@/components/message/Message';
 
 type SearchParamsProps = {
     searchParams: {
@@ -35,9 +39,25 @@ const MessagePage = ({ searchParams: { Id } }: SearchParamsProps) => {
                     </div>
 
                     {/* conversation */}
-                    <div className="">
 
+                    <div className="grid content-between px-2 py-4">
+                        <div className="space-y-6">
+                            <Message ownMessage={true} />
+                            <Message />
+                            <Message />
+                            <Message />
+                            <Message ownMessage={true} />
+                        </div>
+
+                        {/* message send */}
+                        <div className="flex items-center gap-2">
+                            <Input placeholder='White Something...' className='font-semibold rounded-full' />
+                            <div className="p-2 border border-gray-200 rounded-full cursor-pointer">
+                                <SendIcon className='w-6 h-6' />
+                            </div>
+                        </div>
                     </div>
+
                     {/* friend profile */}
 
                     <div className="border-l border-gray-200">
