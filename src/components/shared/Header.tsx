@@ -1,7 +1,7 @@
 "use client";
 
 import Link from 'next/link'
-import React from 'react'
+import React, { useState } from 'react'
 import HomeIcon from '../icon/HomeIcon'
 import GroupIcon from '../icon/GroupIcon'
 import MessageIcon from '../icon/MessageIcon'
@@ -32,11 +32,14 @@ import { useTheme } from 'next-themes'
 import { MoonIcon, SunIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import FriendMessageList from '../message/FriendMessageList';
+import { useGetChatQuery } from '@/store/api/chatApi';
 
 const Header = () => {
+    const [dropdownOpen, setDropdownOpen] = useState(false);
     const { setTheme } = useTheme()
     const user = useAppSelector((state) => state.auth.user)
     const { data } = useGetUserQuery({ userId: user?.id })
+    const { data: chatData } = useGetChatQuery({ userId: user?.id })
     const dispatch = useAppDispatch();
     const router = useRouter();
 
@@ -49,7 +52,7 @@ const Header = () => {
 
     return (
         <header className='dark:bg-bgDark dark:border-none sticky top-0 z-50 bg-white border-b border-gray-300 shadow'>
-            <Container className=' relative flex items-center justify-between py-2'>
+            <Container className='relative flex items-center justify-between py-2'>
                 <div className="text-xl font-bold">FRIEND<sub className='text-bgColor'>zone</sub></div>
                 <nav className="flex gap-2">
 
@@ -74,18 +77,25 @@ const Header = () => {
 
                 <nav className="flex gap-4">
                     <CustomTooltip message="Message">
-                        <DropdownMenu>
+                        <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
                             <DropdownMenuTrigger className='dark:bg-bgDarkHover p-1 bg-gray-200 rounded-full'>
                                 <MessageIcon className='w-7 h-7' />
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent className='w-80 grid content-between mt-2'>
-                                <div className="h-[500px] overflow-x-hidden overflow-y-scroll">
+                            <DropdownMenuContent className='w-80 h-[calc(100vh-64px)] grid content-between mt-2'>
+                                <div className=" overflow-hidden overflow-y-auto">
                                     <DropdownMenuLabel className='py-2 text-base'>Messages</DropdownMenuLabel>
                                     <DropdownMenuSeparator />
-                                    <FriendMessageList userId={user?.id} />
+                                    <div className="px-2 space-y-2">
+                                        {chatData?.map((chat: any) => (
+                                            <div className="" onClick={() => setDropdownOpen(false)}>
+                                                <FriendMessageList chat={chat} currentUserId={user?.id} />
+                                            </div>
+                                        ))}
+                                    </div>
+
                                 </div>
                                 <Button variant="link" asChild className='flex-auto text-blue-500'>
-                                    <Link href="#">All Message</Link>
+                                    <Link href="/message">All Message</Link>
                                 </Button>
 
                             </DropdownMenuContent>

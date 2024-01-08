@@ -84,8 +84,9 @@ const ProfileSidebar = ({ profileInfo, userId, profileSideBarLoading }: any) => 
     if (profileSideBarLoading) return <div className=""><ProfileInfoSkeleton /></div>
     return (
         <div className='overflow-hidden'>
-            <Card className='dark:bg-bgDark'>
+            <Card className='dark:bg-bgDark mt-2'>
                 <CardHeader>
+
                     <CardTitle className='capitalize'>{profileInfo?.user?.name}</CardTitle>
                     <CardDescription>{profileInfo?.user?.bio}</CardDescription>
                 </CardHeader>

@@ -14,6 +14,7 @@ import { Button } from '../ui/button'
 import { useUpdateCoverPhotoMutation, useUpdateProfilePhotoMutation } from '@/store/api/userApi'
 import ProfileCoverSkeleton from '../skeleton/ProfileCoverSkeleton'
 import { useAppSelector } from '@/store/hooks'
+import { useCreateChatMutation } from '@/store/api/chatApi'
 
 const ProfileCart = ({ profileData, isLoading, userId }: any) => {
   const [open, setOpen] = useState(false)
@@ -22,6 +23,8 @@ const ProfileCart = ({ profileData, isLoading, userId }: any) => {
 
   const [updateProfilePhoto, { isLoading: loading, isError, isSuccess }] = useUpdateProfilePhotoMutation()
   const [updateCoverPhoto, { isLoading: coverLoading, isError: error, isSuccess: success }] = useUpdateCoverPhotoMutation()
+
+  const [createChat, { isSuccess: chatSuccess }] = useCreateChatMutation()
 
 
   const currentUser = useAppSelector((state) => state.auth.user)
@@ -82,6 +85,16 @@ const ProfileCart = ({ profileData, isLoading, userId }: any) => {
     updateCoverPhoto({ formData, userId })
   }
 
+  const handleChat = () => {
+    const chat = {
+      userId: currentUser?.id,
+      friendId: userId
+    }
+
+    //api call
+    createChat(chat)
+  }
+
   if (isLoading) return <ProfileCoverSkeleton />
   return (
     <div className="rounded">
@@ -91,7 +104,9 @@ const ProfileCart = ({ profileData, isLoading, userId }: any) => {
           <CameraIcon className='w-5 h-5 text-white' />
           Edit cover photo
         </div>}
-
+        {userId !== currentUser?.id && <div onClick={handleChat} className="-bottom-14 absolute right-0">
+          <Button size="lg" className='hover:bg-black bg-black'>Message</Button>
+        </div>}
         <Dialog open={coverPhotoOpen} onOpenChange={setCoverPhotoOpen}>
           <DialogContent className='dark:bg-bgDark dark:border-none bg-white border border-gray-200 shadow'>
             <DialogHeader>
