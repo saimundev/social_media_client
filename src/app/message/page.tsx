@@ -4,7 +4,7 @@ import FriendMessageList from '@/components/message/FriendMessageList'
 import Container from '@/components/shared/Container'
 import Header from '@/components/shared/Header'
 import { useGetUserQuery } from '@/store/api/userApi';
-import { useAppSelector } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import {
     Avatar,
     AvatarFallback,
@@ -14,12 +14,13 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 import SendIcon from '@/components/icon/SendIcon';
-import Conversation from '@/components/message/Message';
 import Message from '@/components/message/Message';
 import { useGetChatQuery } from '@/store/api/chatApi';
 import { useGetMessageQuery, useSendMessageMutation } from '@/store/api/messageApi';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Conversion from '@/components/illustration-photo/Conversion';
+import { io } from "socket.io-client";
+import { onlineUsers } from '@/store/features/authSlice';
 
 type SearchParamsProps = {
     searchParams: {
@@ -31,18 +32,67 @@ type SearchParamsProps = {
 
 const MessagePage = ({ searchParams: { Id, chatId } }: SearchParamsProps) => {
     const [text, setText] = useState("");
+    const [socket, setSocket] = useState<any>(null)
+    const [newMessage, setNewMessage] = useState<any>([]);
     const user = useAppSelector((state) => state.auth.user)
     const { data, isLoading, isError } = useGetUserQuery({ userId: Id });
     const { data: chatData } = useGetChatQuery({ userId: user?.id })
     const { data: messageData } = useGetMessageQuery({ chatId })
     const [sendMessage] = useSendMessageMutation()
+    const { onlineUser } = useAppSelector((state) => state.auth)
+    const scrollRef = useRef<null | HTMLDivElement>(null)
+    const dispatch = useAppDispatch();
 
+
+
+    //scroll into the last message
+    useEffect(() => {
+        scrollRef?.current?.scrollIntoView({ behavior: "smooth" })
+    }, [newMessage])
+
+
+    // socket connection
+    useEffect(() => {
+        const newSocket = io("http://localhost:5000")
+        setSocket(newSocket)
+    }, [])
+
+    // add online user
+    useEffect(() => {
+        if (socket === null) return
+        socket.emit("addUser", user?.id)
+        socket.on("getUser", (user: any) => {
+            dispatch(onlineUsers(user))
+        })
+    }, [user, socket])
+
+    // set database message in state
+    useEffect(() => {
+        setNewMessage(messageData)
+    }, [messageData])
+
+    // get current message
+    useEffect(() => {
+        if (socket === null) return
+        socket.on("getMessage", (data: any) => {
+            if (chatId !== data.chatId) return
+            setNewMessage((prev: any) => [...prev, data])
+        })
+    }, [chatId, socket, user])
+
+
+
+    //send message 
     const handleMessage = () => {
         const message = {
             text,
             senderId: user?.id,
             chatId
         }
+
+        // const receiver = chatData?.members?.find((member: any) => member !== user?.id)
+
+        socket.emit("sendMessage", { ...message, receiverId: Id })
 
         // send message api call
         sendMessage(message)
@@ -59,7 +109,7 @@ const MessagePage = ({ searchParams: { Id, chatId } }: SearchParamsProps) => {
                     {/* friend list */}
                     <div className="dark:border-bgDarkHover px-2 mt-2 space-y-2 border-r border-gray-200 shadow">
                         {chatData?.map((chat: any) => (
-                            <FriendMessageList chat={chat} currentUserId={user?.id} />
+                            <FriendMessageList chat={chat} currentUserId={user?.id} onlineUser={onlineUser} />
                         ))}
 
                     </div>
@@ -76,8 +126,10 @@ const MessagePage = ({ searchParams: { Id, chatId } }: SearchParamsProps) => {
                          dark:[&::-webkit-scrollbar-track]:bg-bgDark
                          dark:[&::-webkit-scrollbar-thumb]:bg-bgDarkHover
                         ">
-                            {messageData?.map((message: any) => (
-                                <Message message={message} ownMessage={message.senderId === user?.id} friendProfile={data} />
+                            {newMessage?.map((message: any) => (
+                                <div ref={scrollRef}>
+                                    <Message message={message} ownMessage={message.senderId === user?.id} friendProfile={data} />
+                                </div>
                             ))}
                         </div>
 
@@ -104,15 +156,24 @@ const MessagePage = ({ searchParams: { Id, chatId } }: SearchParamsProps) => {
 
                     {chatId && Id && <div className="dark:border-bgDarkHover border-l border-gray-200">
                         <div className="top-20 sticky">
-                            <Avatar className='w-28 h-28 mx-auto'>
-                                <AvatarImage src={data?.user?.profile?.secure_url} alt={data?.user?.name} />
-                                <AvatarFallback>{data?.user?.name}</AvatarFallback>
-                            </Avatar>
+                            <div className="w-28 h-28 relative mx-auto">
+                                <Avatar className='w-28 h-28 mx-auto'>
+                                    <AvatarImage src={data?.user?.profile?.secure_url} alt={data?.user?.name} />
+                                    <AvatarFallback>{data?.user?.name}</AvatarFallback>
+
+                                </Avatar>
+                                <div className="absolute bottom-0 left-[50%] mt-2 text-sm text-center">
+                                    {onlineUser?.some((online: any) => online.userId === Id) ? <span className=" px-4 py-1 text-white bg-green-500 rounded-full">Online</span> : <span className="px-4 py-1 text-white bg-red-500 rounded-full">offline</span>}
+                                </div>
+                            </div>
                             <h3 className='dark:text-white mt-2 text-lg font-semibold text-center text-gray-600'>{data?.user?.name}</h3>
+
                             <div className="flex justify-center">
                                 <Button variant="link">
                                     <Link href={`/profile?userId=${data?.user?._id}`}>View Profile</Link>
                                 </Button>
+
+
                             </div>
                         </div>
 

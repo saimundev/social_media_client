@@ -40,6 +40,7 @@ const Header = () => {
     const user = useAppSelector((state) => state.auth.user)
     const { data } = useGetUserQuery({ userId: user?.id })
     const { data: chatData } = useGetChatQuery({ userId: user?.id })
+    const { onlineUser } = useAppSelector((state) => state.auth)
     const dispatch = useAppDispatch();
     const router = useRouter();
 
@@ -88,7 +89,7 @@ const Header = () => {
                                     <div className="px-2 space-y-2">
                                         {chatData?.map((chat: any) => (
                                             <div className="" onClick={() => setDropdownOpen(false)}>
-                                                <FriendMessageList chat={chat} currentUserId={user?.id} />
+                                                <FriendMessageList chat={chat} currentUserId={user?.id} onlineUser={onlineUser} />
                                             </div>
                                         ))}
                                     </div>

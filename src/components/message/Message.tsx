@@ -11,6 +11,7 @@ type MessageProps = {
     ownMessage?: boolean
     message: any
     friendProfile: any
+
 }
 
 const Message = ({ ownMessage, message, friendProfile }: MessageProps) => {

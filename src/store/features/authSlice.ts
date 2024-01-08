@@ -11,6 +11,10 @@ interface AuthState {
     name: string;
   } | null;
   userToken: string | null | undefined;
+  onlineUser: {
+    userId: string;
+    socketId: string;
+  }[];
 }
 
 const token = getCookie("access_token");
@@ -33,6 +37,7 @@ const verifyToken = () => {
 const initialState: AuthState = {
   user: token ? jwtDecode(token) : null,
   userToken: token ? verifyToken() : null,
+  onlineUser: [],
 };
 
 const authSlice = createSlice({
@@ -44,6 +49,9 @@ const authSlice = createSlice({
       state.user = jwtDecode(action.payload);
     },
 
+    onlineUsers: (state, action) => {
+      state.onlineUser = action.payload;
+    },
     logOut: (state) => {
       state.user = null;
       state.userToken = null;
@@ -52,5 +60,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { getUser, logOut } = authSlice.actions;
+export const { getUser, logOut, onlineUsers } = authSlice.actions;
 export default authSlice.reducer;

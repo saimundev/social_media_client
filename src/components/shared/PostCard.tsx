@@ -104,7 +104,7 @@ const PostCard = ({ cartData = {}, currentUserId = "" }: any) => {
     }
 
     const handleComment = (id: string) => {
-        if (userId) {
+        if (userId && comment) {
             commentPost({ postId: id, comment, commentBy: userId })
         }
 
@@ -175,7 +175,7 @@ const PostCard = ({ cartData = {}, currentUserId = "" }: any) => {
                 )}
 
                 <Dialog open={updateOpen} onOpenChange={setUpdateOpen}>
-                    <DialogContent className='bg-white border border-gray-200 shadow'>
+                    <DialogContent className='dark:bg-bgDark bg-white border border-gray-200 shadow'>
                         <DialogHeader>
                             <DialogTitle className='text-xl font-bold text-center'>Update Post</DialogTitle>
                         </DialogHeader>
@@ -250,7 +250,13 @@ const PostCard = ({ cartData = {}, currentUserId = "" }: any) => {
                                 </DialogHeader>
 
                                 {/* like render here */}
-                                <div className="h-[400px] overflow-y-scroll">
+                                <div className="h-[400px] overflow-y-auto [&::-webkit-scrollbar]:w-2
+                                [&::-webkit-scrollbar-track]:rounded-full
+                                [&::-webkit-scrollbar-track]:bg-gray-100
+                                [&::-webkit-scrollbar-thumb]:rounded-full
+                                [&::-webkit-scrollbar-thumb]:bg-gray-300
+                                dark:[&::-webkit-scrollbar-track]:bg-bgDark
+                                dark:[&::-webkit-scrollbar-thumb]:bg-bgDarkHover ">
                                     {cartData.likes?.length && cartData.likes.map((like: any) => (
                                         <div key={like._id} className="last:border-none dark:border-gray-500 mt-4 border-b border-gray-200">
                                             <div className="flex items-center justify-between gap-2">
@@ -310,7 +316,13 @@ const PostCard = ({ cartData = {}, currentUserId = "" }: any) => {
                                 </DialogHeader>
 
                                 {/* comment render here */}
-                                <div className="h-[400px] overflow-y-scroll">
+                                <div className="max-h-[500px] overflow-y-auto [&::-webkit-scrollbar]:w-2
+                         [&::-webkit-scrollbar-track]:rounded-full
+                         [&::-webkit-scrollbar-track]:bg-gray-100
+                         [&::-webkit-scrollbar-thumb]:rounded-full
+                         [&::-webkit-scrollbar-thumb]:bg-gray-300
+                         dark:[&::-webkit-scrollbar-track]:bg-bgDark
+                         dark:[&::-webkit-scrollbar-thumb]:bg-bgDarkHover px-2">
                                     {cartData.comments?.length && cartData.comments.map((comment: any) => (
                                         <div className="last:border-none dark:border-gray-500 mt-4 border-b border-gray-200" key={comment._id}>
                                             <div className="flex justify-between">
