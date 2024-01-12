@@ -19,24 +19,9 @@ interface AuthState {
 
 const token = getCookie("access_token");
 
-//verify token
-const verifyToken = () => {
-  if (token) {
-    const decode = jwtDecode(token);
-    const expairIn = Number(new Date()) / 1000 >= (decode as any)?.exp;
-
-    if (expairIn) {
-      deleteCookie("userToken");
-      return null;
-    } else {
-      return token;
-    }
-  }
-};
-
 const initialState: AuthState = {
   user: token ? jwtDecode(token) : null,
-  userToken: token ? verifyToken() : null,
+  userToken: token ? token : null,
   onlineUser: [],
 };
 

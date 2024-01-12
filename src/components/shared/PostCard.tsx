@@ -184,10 +184,10 @@ const PostCard = ({ cartData = {}, currentUserId = "" }: any) => {
 
                             {/* post create start here  */}
                             <form onSubmit={handleSubmit}>
-                                <textarea value={postText} name="" id="" onChange={(e) => setPostText(e.target.value)} placeholder="Update Your Post" className='placeholder:text-gray-600 w-full h-16 mt-4 text-xl text-black outline-none'></textarea>
+                                <textarea value={postText} name="" id="" onChange={(e) => setPostText(e.target.value)} placeholder="Update Your Post" className='placeholder:text-gray-600 dark:text-gray-400 w-full h-16 p-2 mt-4 text-xl text-black rounded-lg outline-none'></textarea>
 
                                 {/* file upload handle */}
-                                <div className=" relative">
+                                <div className=" relative mt-2">
                                     {postImage ? <div className="">
                                         <img src={postImage && URL.createObjectURL(postImage)} alt="Image_preview" className='w-full rounded h-[300px] object-cover' />
                                         <div onClick={() => setPostImage(null)} className="bg-black/70 top-1 right-1 absolute p-1 rounded-full cursor-pointer"> <CloseIcon className='w-6 h-6 text-white' /></div>
@@ -250,14 +250,14 @@ const PostCard = ({ cartData = {}, currentUserId = "" }: any) => {
                                 </DialogHeader>
 
                                 {/* like render here */}
-                                <div className="h-[400px] overflow-y-auto [&::-webkit-scrollbar]:w-2
+                                <div className="min-h-[400px] overflow-y-auto [&::-webkit-scrollbar]:w-2
                                 [&::-webkit-scrollbar-track]:rounded-full
                                 [&::-webkit-scrollbar-track]:bg-gray-100
                                 [&::-webkit-scrollbar-thumb]:rounded-full
                                 [&::-webkit-scrollbar-thumb]:bg-gray-300
                                 dark:[&::-webkit-scrollbar-track]:bg-bgDark
                                 dark:[&::-webkit-scrollbar-thumb]:bg-bgDarkHover ">
-                                    {cartData.likes?.length && cartData.likes.map((like: any) => (
+                                    {cartData.likes?.length ? cartData.likes.map((like: any) => (
                                         <div key={like._id} className="last:border-none dark:border-gray-500 mt-4 border-b border-gray-200">
                                             <div className="flex items-center justify-between gap-2">
                                                 <div className="flex gap-4">
@@ -274,7 +274,7 @@ const PostCard = ({ cartData = {}, currentUserId = "" }: any) => {
                                             </div>
 
                                         </div>
-                                    ))}
+                                    )) : <div className="text-sm">No Likes Yet</div>}
                                 </div>
 
                             </DialogContent>
@@ -316,14 +316,14 @@ const PostCard = ({ cartData = {}, currentUserId = "" }: any) => {
                                 </DialogHeader>
 
                                 {/* comment render here */}
-                                <div className="max-h-[500px] overflow-y-auto [&::-webkit-scrollbar]:w-2
+                                <div className="min-h-[400px] overflow-y-auto [&::-webkit-scrollbar]:w-2
                          [&::-webkit-scrollbar-track]:rounded-full
                          [&::-webkit-scrollbar-track]:bg-gray-100
                          [&::-webkit-scrollbar-thumb]:rounded-full
                          [&::-webkit-scrollbar-thumb]:bg-gray-300
                          dark:[&::-webkit-scrollbar-track]:bg-bgDark
                          dark:[&::-webkit-scrollbar-thumb]:bg-bgDarkHover px-2">
-                                    {cartData.comments?.length && cartData.comments.map((comment: any) => (
+                                    {cartData.comments?.length ? cartData.comments.map((comment: any) => (
                                         <div className="last:border-none dark:border-gray-500 mt-4 border-b border-gray-200" key={comment._id}>
                                             <div className="flex justify-between">
                                                 <div className="flex items-center gap-2">
@@ -345,7 +345,7 @@ const PostCard = ({ cartData = {}, currentUserId = "" }: any) => {
 
 
                                         </div>
-                                    ))}
+                                    )) : <div className="text-sm">No Comments Yet</div>}
                                 </div>
 
                             </DialogContent>

@@ -116,7 +116,7 @@ const MessagePage = ({ searchParams: { Id, chatId } }: SearchParamsProps) => {
 
                     {/* conversation */}
 
-                    {chatId && Id ? <div className="grid content-between px-2 py-4">
+                    {chatId && Id ? <div className="grid content-between pb-2">
                         <div className="space-y-6 overflow-y-auto max-h-[calc(100vh-130px)]
                          [&::-webkit-scrollbar]:w-2
                          [&::-webkit-scrollbar-track]:rounded-full

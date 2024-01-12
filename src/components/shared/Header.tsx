@@ -1,7 +1,7 @@
 "use client";
 
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import HomeIcon from '../icon/HomeIcon'
 import GroupIcon from '../icon/GroupIcon'
 import MessageIcon from '../icon/MessageIcon'
@@ -25,7 +25,7 @@ import {
 import LogoutIcon from '../icon/LogoutIcon'
 import { useGetUserQuery } from '@/store/api/userApi'
 import { useAppSelector, useAppDispatch } from '@/store/hooks'
-import { logOut } from '@/store/features/authSlice'
+import { logOut, onlineUsers } from '@/store/features/authSlice'
 import { useRouter, usePathname } from "next/navigation"
 import { Button } from '../ui/button'
 import { useTheme } from 'next-themes'
@@ -33,16 +33,32 @@ import { MoonIcon, SunIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import FriendMessageList from '../message/FriendMessageList';
 import { useGetChatQuery } from '@/store/api/chatApi';
-
+import jwtDecode from "jwt-decode"
+import { deleteCookie, getCookie } from 'cookies-next';
 const Header = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [socket, setSocket] = useState<any>(null)
     const { setTheme } = useTheme()
     const user = useAppSelector((state) => state.auth.user)
     const { data } = useGetUserQuery({ userId: user?.id })
     const { data: chatData } = useGetChatQuery({ userId: user?.id })
     const { onlineUser } = useAppSelector((state) => state.auth)
+    const token = getCookie("access_token");
+    const decode = token ? jwtDecode(token) : null
     const dispatch = useAppDispatch();
     const router = useRouter();
+
+
+
+    //user logout when jwt token is expire
+    const expToken = Number(new Date()) / 1000 >= (decode as any)?.exp
+    useEffect(() => {
+        if (expToken) {
+            dispatch(logOut())
+            router.push("/sign-in")
+        }
+    }, [expToken, dispatch])
+
 
     const handleLogout = () => {
         dispatch(logOut())
@@ -54,7 +70,9 @@ const Header = () => {
     return (
         <header className='dark:bg-bgDark dark:border-none sticky top-0 z-50 bg-white border-b border-gray-300 shadow'>
             <Container className='relative flex items-center justify-between py-2'>
-                <div className="text-xl font-bold">FRIEND<sub className='text-bgColor'>zone</sub></div>
+                <Link href="/">
+                    <div className="text-xl font-bold">FRIEND<sub className='text-bgColor'>zone</sub></div>
+                </Link>
                 <nav className="flex gap-2">
 
                     <CustomTooltip className={cn("hover:bg-gray-200 dark:hover:bg-bgDarkHover px-6 py-2 rounded", pathname === "/" && "bg-gray-200 dark:bg-bgDarkHover")} message="Home">

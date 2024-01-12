@@ -35,6 +35,8 @@ export const chatApi = createApi({
         method: "GET",
         url: `chat/get-chats/${userId}`,
       }),
+
+      providesTags: ["Chat"],
     }),
   }),
 });

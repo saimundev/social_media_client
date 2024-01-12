@@ -15,6 +15,7 @@ import { useUpdateCoverPhotoMutation, useUpdateProfilePhotoMutation } from '@/st
 import ProfileCoverSkeleton from '../skeleton/ProfileCoverSkeleton'
 import { useAppSelector } from '@/store/hooks'
 import { useCreateChatMutation } from '@/store/api/chatApi'
+import { useRouter } from "next/navigation"
 
 const ProfileCart = ({ profileData, isLoading, userId }: any) => {
   const [open, setOpen] = useState(false)
@@ -25,6 +26,7 @@ const ProfileCart = ({ profileData, isLoading, userId }: any) => {
   const [updateCoverPhoto, { isLoading: coverLoading, isError: error, isSuccess: success }] = useUpdateCoverPhotoMutation()
 
   const [createChat, { isSuccess: chatSuccess }] = useCreateChatMutation()
+  const router = useRouter();
 
 
   const currentUser = useAppSelector((state) => state.auth.user)
@@ -42,6 +44,13 @@ const ProfileCart = ({ profileData, isLoading, userId }: any) => {
       setCoverPhotoOpen(false)
     }
   }, [success])
+
+  //success message for handle charting
+  useEffect(() => {
+    if (chatSuccess) {
+      router.push("/message")
+    }
+  }, [chatSuccess])
 
   const onDrop = useCallback((acceptedFiles: any) => {
     if (acceptedFiles) {
@@ -105,7 +114,7 @@ const ProfileCart = ({ profileData, isLoading, userId }: any) => {
           Edit cover photo
         </div>}
         {userId !== currentUser?.id && <div onClick={handleChat} className="-bottom-14 absolute right-0">
-          <Button size="lg" className='hover:bg-black bg-black'>Message</Button>
+          <Button size="lg" className='hover:bg-black dark:bg-bgDarkHover dark:text-gray-300 bg-black'>Message</Button>
         </div>}
         <Dialog open={coverPhotoOpen} onOpenChange={setCoverPhotoOpen}>
           <DialogContent className='dark:bg-bgDark dark:border-none bg-white border border-gray-200 shadow'>

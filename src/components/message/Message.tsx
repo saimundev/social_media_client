@@ -24,7 +24,7 @@ const Message = ({ ownMessage, message, friendProfile }: MessageProps) => {
                         <AvatarFallback>P</AvatarFallback>
                     </Avatar>}
 
-                    <div className={cn("p-2 text-white rounded-full", ownMessage ? "bg-bgColor" : "bg-gray-200 text-black dark:bg-bgDarkHover dark:text-white")}>
+                    <div className={cn("px-5 py-2 text-white rounded-full overflow-hidden  max-w-[400px]", ownMessage ? "bg-bgColor" : "bg-gray-200 text-black dark:bg-bgDarkHover dark:text-white")}>
                         {message.text}
                     </div>
                 </div>
