@@ -56,7 +56,8 @@ const OtpVerification = () => {
 
                     <CardHeader>
                         <CardTitle>Enter Your OTP Code</CardTitle>
-                        <CardDescription>Please enter your email address  to search for your account.</CardDescription>
+                        <CardDescription>Please check your email address and enter your OTP code</CardDescription>
+
                     </CardHeader>
                     <CardContent>
                         <OtpInput

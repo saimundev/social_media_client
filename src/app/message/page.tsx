@@ -21,6 +21,7 @@ import { useEffect, useRef, useState } from 'react';
 import Conversion from '@/components/illustration-photo/Conversion';
 import { io } from "socket.io-client";
 import { onlineUsers } from '@/store/features/authSlice';
+import Loading from '@/components/shared/Loading';
 
 type SearchParamsProps = {
     searchParams: {
@@ -35,10 +36,10 @@ const MessagePage = ({ searchParams: { Id, chatId } }: SearchParamsProps) => {
     const [socket, setSocket] = useState<any>(null)
     const [newMessage, setNewMessage] = useState<any>([]);
     const user = useAppSelector((state) => state.auth.user)
-    const { data, isLoading, isError } = useGetUserQuery({ userId: Id });
+    const { data, isError } = useGetUserQuery({ userId: Id });
     const { data: chatData } = useGetChatQuery({ userId: user?.id })
     const { data: messageData } = useGetMessageQuery({ chatId })
-    const [sendMessage] = useSendMessageMutation()
+    const [sendMessage, { isLoading }] = useSendMessageMutation()
     const { onlineUser } = useAppSelector((state) => state.auth)
     const scrollRef = useRef<null | HTMLDivElement>(null)
     const dispatch = useAppDispatch();
@@ -53,7 +54,7 @@ const MessagePage = ({ searchParams: { Id, chatId } }: SearchParamsProps) => {
 
     // socket connection
     useEffect(() => {
-        const newSocket = io("http://localhost:5000")
+        const newSocket = io("https://social-media-socket-7mrs.onrender.com/")
         setSocket(newSocket)
     }, [])
 
@@ -78,7 +79,7 @@ const MessagePage = ({ searchParams: { Id, chatId } }: SearchParamsProps) => {
             if (chatId !== data.chatId) return
             setNewMessage((prev: any) => [...prev, data])
         })
-    }, [chatId, socket, user])
+    }, [socket, user])
 
 
 
@@ -108,9 +109,9 @@ const MessagePage = ({ searchParams: { Id, chatId } }: SearchParamsProps) => {
                 <div className="grid-cols-[1fr_2fr_1fr]  grid  h-[calc(100vh-64px)]">
                     {/* friend list */}
                     <div className="dark:border-bgDarkHover px-2 mt-2 space-y-2 border-r border-gray-200 shadow">
-                        {chatData?.map((chat: any) => (
+                        {chatData?.length ? chatData?.map((chat: any) => (
                             <FriendMessageList chat={chat} currentUserId={user?.id} onlineUser={onlineUser} />
-                        ))}
+                        )) : <div className="text-sm">No Conversation Yet</div>}
 
                     </div>
 
@@ -134,14 +135,14 @@ const MessagePage = ({ searchParams: { Id, chatId } }: SearchParamsProps) => {
                         </div>
 
                         {/* message send */}
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 px-2">
                             <Input placeholder='White Something...'
                                 onChange={(e) => setText(e.target.value)}
                                 value={text}
                                 className='font-semibold rounded-full' />
-                            <div onClick={handleMessage} className="p-2 border border-gray-200 rounded-full cursor-pointer">
+                            {isLoading ? <Loading className='w-8 h-8' /> : <div onClick={handleMessage} className="p-2 border border-gray-200 rounded-full cursor-pointer">
                                 <SendIcon className='w-6 h-6' />
-                            </div>
+                            </div>}
                         </div>
                     </div>
                         : <div className="place-items-center grid text-2xl font-medium text-gray-400">

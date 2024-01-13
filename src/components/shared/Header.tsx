@@ -105,11 +105,11 @@ const Header = () => {
                                     <DropdownMenuLabel className='py-2 text-base'>Messages</DropdownMenuLabel>
                                     <DropdownMenuSeparator />
                                     <div className="px-2 space-y-2">
-                                        {chatData?.map((chat: any) => (
+                                        {chatData?.length ? chatData?.map((chat: any) => (
                                             <div className="" onClick={() => setDropdownOpen(false)}>
                                                 <FriendMessageList chat={chat} currentUserId={user?.id} onlineUser={onlineUser} />
                                             </div>
-                                        ))}
+                                        )) : <div className="text-sm text-center">No Conversation Yet</div>}
                                     </div>
 
                                 </div>
