@@ -26,7 +26,7 @@ const FriendMessageList = ({ chat, currentUserId, onlineUser }: any) => {
                 <div className="relative">
                     <Avatar className="">
                         <AvatarImage src={data?.user?.profile?.secure_url} />
-                        <AvatarFallback>CN</AvatarFallback>
+                        <AvatarFallback>P</AvatarFallback>
 
                     </Avatar>
 

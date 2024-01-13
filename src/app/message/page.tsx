@@ -108,7 +108,7 @@ const MessagePage = ({ searchParams: { Id, chatId } }: SearchParamsProps) => {
             <Container>
                 <div className="grid-cols-[1fr_2fr_1fr]  grid  h-[calc(100vh-64px)]">
                     {/* friend list */}
-                    <div className="dark:border-bgDarkHover px-2 mt-2 space-y-2 border-r border-gray-200 shadow">
+                    <div className="dark:border-bgDarkHover custom_scrollbar h-full px-2 space-y-2 border-r border-gray-200 shadow">
                         {chatData?.length ? chatData?.map((chat: any) => (
                             <FriendMessageList chat={chat} currentUserId={user?.id} onlineUser={onlineUser} />
                         )) : <div className="text-sm">No Conversation Yet</div>}

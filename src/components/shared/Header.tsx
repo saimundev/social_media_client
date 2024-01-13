@@ -35,13 +35,14 @@ import FriendMessageList from '../message/FriendMessageList';
 import { useGetChatQuery } from '@/store/api/chatApi';
 import jwtDecode from "jwt-decode"
 import { deleteCookie, getCookie } from 'cookies-next';
+import ChatSkeleton from '../skeleton/ChatSkeleton';
 const Header = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [socket, setSocket] = useState<any>(null)
     const { setTheme } = useTheme()
     const user = useAppSelector((state) => state.auth.user)
     const { data } = useGetUserQuery({ userId: user?.id })
-    const { data: chatData } = useGetChatQuery({ userId: user?.id })
+    const { data: chatData, isLoading } = useGetChatQuery({ userId: user?.id })
     const { onlineUser } = useAppSelector((state) => state.auth)
     const token = getCookie("access_token");
     const decode = token ? jwtDecode(token) : null
@@ -101,11 +102,11 @@ const Header = () => {
                                 <MessageIcon className='w-7 h-7' />
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className='w-80 h-[calc(100vh-64px)] grid content-between mt-2'>
-                                <div className=" overflow-hidden overflow-y-auto">
+                                <div className=" custom_scrollbar overflow-x-hidden">
                                     <DropdownMenuLabel className='py-2 text-base'>Messages</DropdownMenuLabel>
                                     <DropdownMenuSeparator />
                                     <div className="px-2 space-y-2">
-                                        {chatData?.length ? chatData?.map((chat: any) => (
+                                        {isLoading ? <ChatSkeleton /> : chatData?.length ? chatData?.map((chat: any) => (
                                             <div className="" onClick={() => setDropdownOpen(false)}>
                                                 <FriendMessageList chat={chat} currentUserId={user?.id} onlineUser={onlineUser} />
                                             </div>

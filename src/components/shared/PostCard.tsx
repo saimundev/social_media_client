@@ -250,13 +250,7 @@ const PostCard = ({ cartData = {}, currentUserId = "" }: any) => {
                                 </DialogHeader>
 
                                 {/* like render here */}
-                                <div className="min-h-[400px] overflow-y-auto [&::-webkit-scrollbar]:w-2
-                                [&::-webkit-scrollbar-track]:rounded-full
-                                [&::-webkit-scrollbar-track]:bg-gray-100
-                                [&::-webkit-scrollbar-thumb]:rounded-full
-                                [&::-webkit-scrollbar-thumb]:bg-gray-300
-                                dark:[&::-webkit-scrollbar-track]:bg-bgDark
-                                dark:[&::-webkit-scrollbar-thumb]:bg-bgDarkHover ">
+                                <div className="h-[400px] custom_scrollbar ">
                                     {cartData.likes?.length ? cartData.likes.map((like: any) => (
                                         <div key={like._id} className="last:border-none dark:border-gray-500 mt-4 border-b border-gray-200">
                                             <div className="flex items-center justify-between gap-2">
@@ -316,13 +310,7 @@ const PostCard = ({ cartData = {}, currentUserId = "" }: any) => {
                                 </DialogHeader>
 
                                 {/* comment render here */}
-                                <div className="min-h-[400px] overflow-y-auto [&::-webkit-scrollbar]:w-2
-                         [&::-webkit-scrollbar-track]:rounded-full
-                         [&::-webkit-scrollbar-track]:bg-gray-100
-                         [&::-webkit-scrollbar-thumb]:rounded-full
-                         [&::-webkit-scrollbar-thumb]:bg-gray-300
-                         dark:[&::-webkit-scrollbar-track]:bg-bgDark
-                         dark:[&::-webkit-scrollbar-thumb]:bg-bgDarkHover px-2">
+                                <div className="h-[400px] custom_scrollbar px-2">
                                     {cartData.comments?.length ? cartData.comments.map((comment: any) => (
                                         <div className="last:border-none dark:border-gray-500 mt-4 border-b border-gray-200" key={comment._id}>
                                             <div className="flex justify-between">
@@ -362,7 +350,7 @@ const PostCard = ({ cartData = {}, currentUserId = "" }: any) => {
                                     <span className='text-sm font-medium'>Share</span>
                                 </div>
                             </DialogTrigger>
-                            <DialogContent className="sm:max-w-lg dark:bg-bgDark">
+                            <DialogContent className="sm:max-w-xl dark:bg-bgDark">
                                 <DialogHeader>
                                     <DialogTitle>Share link</DialogTitle>
                                     <DialogDescription>
@@ -371,12 +359,10 @@ const PostCard = ({ cartData = {}, currentUserId = "" }: any) => {
                                 </DialogHeader>
                                 <div className="flex items-center space-x-2">
                                     <div className="grid flex-1 gap-2">
-                                        <Label htmlFor="link" className="sr-only">
-                                            Link
-                                        </Label>
+
                                         <Input
-                                            id="link"
-                                            defaultValue={`http://localhost:get-post/${cartData._id}`}
+
+                                            defaultValue={`https://friendzon.vercel.app/get-post/${cartData._id}`}
                                             readOnly
                                         />
                                     </div>
