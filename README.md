@@ -17,7 +17,7 @@
 
 <br>
 <h3>Home Page</h3>
-<img src="https://i.ibb.co/qrwgHcp/screencapture-deshjob-vercel-app-2023-12-10-22-41-58.png"/>
+<img src="https://i.ibb.co/rFTWWbb/screencapture-friendzon-vercel-app-2024-01-13-07-07-11.png"/>
 <h3>Profile Page</h3>
 <img src="https://i.ibb.co/YRPKbrr/screencapture-friendzon-vercel-app-profile-2024-01-13-20-27-22.png"/>
 <h3>Message page</h3>
