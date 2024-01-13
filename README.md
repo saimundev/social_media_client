@@ -1,36 +1,26 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<h2>About this project</h2>
+<p> This is a social media website. You can create an account and create a post. you can add friends. like your post and your friend's post. comment on your post and share friend posts. You can start a conversation with any user. you can update your post. and delete your post</p>
+<a href="https://friendzon.vercel.app/">Live site link</a>
+<h3>Technology i used</h3>
+<ul>
+<li>Next Js 14</li>
+<li>Shadcn</li>
+<li>Typescript</li>
+<li>redux toolkit</li>
+<li>Rtk query</li>
+<li>Express js</li>
+<li>Node js</li>
+<li>Mongo DB</li>
+<li>Mongoose</li>
+<li>JWT auth</li>
+</ul>
 
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+<br>
+<h3>Home Page</h3>
+<img src="https://i.ibb.co/qrwgHcp/screencapture-deshjob-vercel-app-2023-12-10-22-41-58.png"/>
+<h3>Profile Page</h3>
+<img src="https://i.ibb.co/YRPKbrr/screencapture-friendzon-vercel-app-profile-2024-01-13-20-27-22.png"/>
+<h3>Message page</h3>
+<img src="https://i.ibb.co/xM7N3K3/screencapture-friendzon-vercel-app-message-2024-01-13-20-30-04.png"/>
+<h3>Find user page</h3>
+<img src="https://i.ibb.co/5jDWGd5/screencapture-friendzon-vercel-app-users-2024-01-13-20-30-29.png"/>
