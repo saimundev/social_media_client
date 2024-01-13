@@ -1,5 +1,5 @@
 <h2>About this project</h2>
-<p> This is a social media website. You can create an account and create a post. you can add friends. like your post and your friend's post. comment on your post and share friend posts. You can start a conversation with any user. you can update your post. and delete your post</p>
+<p> This is a social media website and realtime chat application. You can create an account and create a post. you can add friends. like your post and your friend's post. comment on your post and share friend posts. You can start a conversation with any user. you can update your post. and delete your post</p>
 <a href="https://friendzon.vercel.app/">Live site link</a>
 <h3>Technology i used</h3>
 <ul>
@@ -7,7 +7,8 @@
 <li>Shadcn</li>
 <li>Typescript</li>
 <li>redux toolkit</li>
-<li>Rtk query</li>
+<li>Rtk query</li> 
+<li>socket io</li>
 <li>Express js</li>
 <li>Node js</li>
 <li>Mongo DB</li>
