@@ -3,6 +3,7 @@ import { Button } from '../ui/button'
 import { useGetUserQuery } from '@/store/api/userApi'
 import Link from 'next/link'
 import ProfileCartSkeleton from '../skeleton/ProfileCartSkeleton'
+import Image from 'next/image'
 
 
 type UserPostProps = {
@@ -18,7 +19,9 @@ const HomeSidebar = ({ userId = "" }: UserPostProps) => {
         <div>
             <div className="border-bgColor dark:bg-bgDark dark:border-none top-14 sticky border rounded">
                 <div className="relative">
-                    <img className='h-52 object-cover w-full' src={data.user.cover?.secure_url || "https://e0.pxfuel.com/wallpapers/137/952/desktop-wallpaper-facebook-cover-love-lovely-nice-cool-touch-beauty.jpg"} alt="" />
+                    <div className="h-52 relative w-full">
+                        <Image fill className='object-cover w-full h-full' src={data.user.cover?.secure_url || "https://e0.pxfuel.com/wallpapers/137/952/desktop-wallpaper-facebook-cover-love-lovely-nice-cool-touch-beauty.jpg"} alt="" />
+                    </div>
                     <img className="w-40 h-40 object-cover absolute bottom-[-80px] left-[50%] translate-x-[-50%] rounded-full" src={data.user.profile.secure_url} alt="profile_pic" />
                 </div>
 

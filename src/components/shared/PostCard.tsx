@@ -22,7 +22,6 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { CopyIcon } from 'lucide-react';
@@ -40,6 +39,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { useDropzone } from 'react-dropzone'
 import CloseIcon from '../icon/CloseIcon';
+import Image from 'next/image';
 
 const PostCard = ({ cartData = {}, currentUserId = "" }: any) => {
     const [postText, setPostText] = useState("");
@@ -224,7 +224,9 @@ const PostCard = ({ cartData = {}, currentUserId = "" }: any) => {
             {/* user post */}
             <div className="">
                 <h2 className=' px-4 py-2 mt-3 mb-2 text-xl font-medium'>{cartData.postText}</h2>
-                {cartData.postImage ? <img className="h-80 object-cover w-full rounded" src={cartData.postImage.secure_url} alt="post_image" /> : null}
+                <div className="h-80 relative w-full">
+                    {cartData.postImage ? <Image fill className="object-cover w-full h-full rounded" src={cartData.postImage.secure_url} alt="post_image" /> : null}
+                </div>
                 <div className="">
 
                 </div>

@@ -16,6 +16,7 @@ import ProfileCoverSkeleton from '../skeleton/ProfileCoverSkeleton'
 import { useAppSelector } from '@/store/hooks'
 import { useCreateChatMutation } from '@/store/api/chatApi'
 import { useRouter } from "next/navigation"
+import Image from 'next/image'
 
 const ProfileCart = ({ profileData, isLoading, userId }: any) => {
   const [open, setOpen] = useState(false)
@@ -108,7 +109,10 @@ const ProfileCart = ({ profileData, isLoading, userId }: any) => {
   return (
     <div className="rounded">
       <div className="relative">
-        <img className='h-52 object-cover w-full rounded' src={profileData?.user?.cover?.secure_url || "https://e0.pxfuel.com/wallpapers/137/952/desktop-wallpaper-facebook-cover-love-lovely-nice-cool-touch-beauty.jpg"} alt="cover_photo" />
+        {/*user cover image */}
+        <div className="h-60 relative w-full">
+          <Image fill className='object-cover w-full h-full rounded' src={profileData?.user?.cover?.secure_url || "https://e0.pxfuel.com/wallpapers/137/952/desktop-wallpaper-facebook-cover-love-lovely-nice-cool-touch-beauty.jpg"} alt="cover_photo" />
+        </div>
         {userId === currentUser?.id && <div onClick={() => setCoverPhotoOpen(true)} className="bg-black/80 bottom-2 right-2 absolute flex gap-2 px-4 py-2 text-sm font-semibold text-white rounded cursor-pointer">
           <CameraIcon className='w-5 h-5 text-white' />
           Edit cover photo
