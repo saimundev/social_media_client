@@ -221,12 +221,12 @@ const PostCard = ({ cartData = {}, currentUserId = "" }: any) => {
                 </Dialog>
             </div>
 
-            {/* user post */}
+            {/*show user post */}
             <div className="">
                 <h2 className=' px-4 py-2 mt-3 mb-2 text-xl font-medium'>{cartData.postText}</h2>
-                <div className="h-80 relative w-full">
-                    {cartData.postImage ? <Image fill className="object-cover w-full h-full rounded" src={cartData.postImage.secure_url} alt="post_image" /> : null}
-                </div>
+                {cartData.postImage ? <div className="h-80 relative w-full">
+                    <Image fill className="object-cover w-full h-full rounded" src={cartData.postImage.secure_url} alt="post_image" />
+                </div> : null}
                 <div className="">
 
                 </div>
